@@ -4,7 +4,7 @@
 #
 # (c) 2013, 2014 MULTIDATA Praha spol. s r.o.
 #
-# cash-api.pl v076 aleph z31 api (TEST)
+# z31-api.pl 20140626 aleph z31 api (dev)
 #
 ###########################################################
 
@@ -16,7 +16,6 @@ binmode STDOUT, ":utf8";
 use CGI;
 use File::Basename;
 
-#
 ##use CGI qw(-utf8);
 use Crypt::OpenSSL::RSA;
 
@@ -24,7 +23,6 @@ use File::Slurp;
 use MIME::Base64;
 use DBI;
 
-#use URI::Escape;
 use POSIX qw(strftime);
 use Time::HiRes q/gettimeofday/;
 use XML::Simple qw(:strict);
@@ -264,8 +262,7 @@ EOT
         $sth = $dbh->prepare($sql);
         $sth->execute();
     }
-        or die
-        "pw_library.last_record_sequence not found in ${pw_library}\n";
+        or die "pw_library.last_record_sequence not found in ${pw_library}\n";
     $dbh->{PrintError} = $print_error;
     my ($z31_sequence) = $sth->fetchrow_array();
 
@@ -497,7 +494,7 @@ sub read_config {
         if (/^\s*([a-z][a-z0-9_]*)\s*=\s*(.*?)\s*$/i) {
             $config{ ($1) } = $2;
         }
-    } ## end while (<IN>)
+    }
     close $cfg_file;
 } ## end sub read_config
 
@@ -537,7 +534,7 @@ EOT
     $sth->execute($par_id);
 
     ($z303_rec_key) = $sth->fetchrow_array();
-} ## end sub check_z303_id
+}
 
 sub print_xml_response {
     my $api_response_xml = XMLout(
